@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Birthday Website</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --blue-500:#007BFF;
+  --blue-600:#0056b3;
+  --gray-100:#f7f8fa;
+  --gray-200:#eef1f5;
+  --gray-700:#3b4752;
+  --white:#ffffff;
+  --radius:14px;
+  --transition:.3s ease;
+}
+
+/* RESET */
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:"Roboto";
+  background:linear-gradient(180deg,var(--gray-100),var(--gray-200));
+  color:var(--gray-700);
+  overflow-x:hidden;
+  transition:background var(--transition), color var(--transition);
+}
+body.dark{
+  background:#111;
+  color:#f5f5f5;
+}
+
+/* CONTAINER */
+.container{max-width:1100px;margin:auto;padding:22px;}
+
+/* INTRO SCREEN */
+#intro{
+  position:fixed; inset:0;
+  background:#000;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  color:white;
+  z-index:9999;
+  animation:introFade 2.5s forwards;
+}
+#intro h1{font-size:2.6rem;animation:introTitle 1.6s ease;}
+@keyframes introFade{0%{opacity:1}70%{opacity:1}100%{opacity:0;visibility:hidden;}}
+@keyframes introTitle{0%{opacity:0;transform:translateY(18px)}100%{opacity:1;transform:translateY(0)}}
+
+/* HEADER */
+header.site-header{
+  background:linear-gradient(180deg,rgba(0,0,0,0.45),rgba(0,0,0,0.25));
+  padding:34px 20px;
+  text-align:center;
+  color:white;
+  border-radius:var(--radius);
+  backdrop-filter:blur(2px);
+  box-shadow:0 12px 32px rgba(0,0,0,0.24);
+  position:relative;
+}
+header .profile{width:140px;height:140px;border-radius:50%;object-fit:cover;border:4px solid white;animation:popIn .8s ease both;}
+@keyframes popIn{0%{opacity:0; transform:scale(.6)}100%{opacity:1; transform:scale(1)}}
+header h1{margin:14px 0 6px;font-size:2rem;font-weight:600;animation:fadeUp 1s ease both;}
+@keyframes fadeUp{0%{opacity:0;transform:translateY(12px)}100%{opacity:1;transform:translateY(0)}}
+
+/* HERO */
+.hero{
+  margin-top:18px;
+  height:50vh;
+  border-radius:var(--radius);
+  overflow:hidden;
+  display:flex;
+  align-items:flex-end;
+  background:url("childhood-wallpaper.jpg") center/cover no-repeat;
+  position:relative;
+  box-shadow:0 12px 32px rgba(0,0,0,0.22);
+}
+.hero .hero-inner{width:100%;padding:28px;color:white;backdrop-filter:blur(3px);}
+.hero-title{margin:0;font-size:2.4rem;font-weight:700;text-shadow:0 6px 20px rgba(0,0,0,0.6);animation:fadeUp 1.2s ease both;}
+
+/* GALLERY / CARDS */
+section.gallery-section{
+  margin-top:20px;border-radius:var(--radius);
+  background:white;padding:18px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.08);
+  transition:var(--transition);
+}
+body.dark section.gallery-section{background:#1a1a1a;color:#fff;}
+.section-title{font-size:1.15rem;font-weight:600;margin-bottom:14px;}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));}
+.card{
+  border-radius:var(--radius);overflow:hidden;background:white;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+  transition:var(--transition);transform:translateY(10px);opacity:0;
+  perspective:1000px;
+}
+body.dark .card{background:#222;}
+.card.visible{opacity:1;transform:translateY(0);}
+.media{width:100%;aspect-ratio:16/10;overflow:hidden;}
+.media img,.media video{width:100%;height:100%;object-fit:cover;transition:.4s ease;transform-style:preserve-3d;}
+.card:hover img,.card:hover video{transform:scale(1.07) rotateY(5deg) rotateX(2deg);}
+.card-body{padding:12px 14px;display:flex;justify-content:space-between;color:#59636c;font-size:.92rem;}
+
+/* Scroll top */
+#scrollTop{
+  position:fixed;bottom:20px;right:20px;padding:14px 16px;
+  background:var(--blue-500);border-radius:50%;border:none;
+  cursor:pointer;color:white;font-size:16px;
+  box-shadow:0 10px 22px rgba(0,0,0,0.3);display:none;transition:var(--transition);
+}
+#scrollTop:hover{transform:translateY(-4px);}
+
+/* Dark Mode Button */
+#toggleDark{
+  position:fixed;top:20px;right:20px;padding:10px 14px;
+  border:none;font-weight:600;cursor:pointer;border-radius:10px;
+  background:#333;color:white;z-index:9999;transition:var(--transition);
+}
+body.dark #toggleDark{background:white;color:black;}
+
+/* Footer */
+footer{margin-top:20px;padding:20px;text-align:center;font-size:.9rem;opacity:.75;}
+.instagram a{color:#ff3ec9;font-weight:600;text-decoration:none;font-size:1rem;}
+
+/* Messages section */
+#messages{margin-top:20px;background:#f0f0f0;border-radius:var(--radius);padding:18px;}
+body.dark #messages{background:#1a1a1a;color:white;}
+#messages h3{margin-top:0;}
+.message{background:#fff;padding:10px 12px;border-radius:10px;margin-bottom:10px;}
+body.dark .message{background:#333;}
+</style>
+</head>
+<body>
+
+<button id="toggleDark" onclick="toggleDark()">Dark Mode</button>
+
+<!-- Intro -->
+<div id="intro"><h1>Happy Birthday Fedi 🎉</h1></div>
+
+<div class="container">
+
+<header class="site-header">
+  <img src="profile.jpg" class="profile" alt="">
+  <h1>fedi berrich</h1>
+  <p>Date de naissance : 14 / 11 / 2009</p>
+  <div class="hero"><div class="hero-inner"><h2 class="hero-title">Souvenirs d'enfance</h2></div></div>
+</header>
+
+<section class="gallery-section">
+  <div class="section-title">Souvenirs d'enfance</div>
+  <div class="grid">
+    <article class="card"><div class="media"><img src="child1.jpg"></div><div class="card-body"><span>Photo 1</span></div></article>
+    <article class="card"><div class="media"><img src="child2.jpg"></div><div class="card-body"><span>Photo 2</span></div></article>
+    <article class="card"><div class="media"><video src="child-video.mp4" controls></video></div><div class="card-body"><span>Vidéo</span></div></article>
+  </div>
+</section>
+
+<section class="gallery-section">
+  <div class="section-title">Avec des amis</div>
+  <div class="grid">
+    <article class="card"><div class="media"><img src="friends1.jpg"></div><div class="card-body"><span>Photo 1</span></div></article>
+    <article class="card"><div class="media"><img src="friends2.jpg"></div><div class="card-body"><span>Photo 2</span></div></article>
+    <article class="card"><div class="media"><video src="friends-video.mp4" controls></video></div><div class="card-body"><span>Vidéo</span></div></article>
+  </div>
+</section>
+
+<section class="gallery-section">
+  <div class="section-title">Photos récentes</div>
+  <div class="grid">
+    <article class="card"><div class="media"><img src="now1.jpg"></div><div class="card-body"><span>Photo 1</span></div></article>
+    <article class="card"><div class="media"><img src="now2.jpg"></div><div class="card-body"><span>Photo 2</span></div></article>
+    <article class="card"><div class="media"><video src="now-video.mp4" controls></video></div><div class="card-body"><span>Vidéo</span></div></article>
+  </div>
+</section>
+
+<section id="messages">
+<h3>Messages des amis</h3>
+<div class="message">Joyeux anniversaire Fedi! 🎉</div>
+<div class="message">Que tous tes rêves se réalisent!</div>
+<div class="message">Amuse-toi bien aujourd'hui! 🥳</div>
+</section>
+
+<footer>
+  Made with ❤️ for Fedi — <span class="instagram"><a href="https://instagram.com/fadi_sup" target="_blank">Instagram</a></span>
+</footer>
+
+</div>
+
+<button id="scrollTop">↑</button>
+
+<audio id="bgMusic" loop autoplay>
+  <source src="happy-birthday.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const btn=document.getElementById("scrollTop");
+window.addEventListener("scroll",()=>{btn.style.display=(window.scrollY>200)?"block":"none";});
+btn.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});
+
+const cards=document.querySelectorAll(".card");
+const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add("visible");});},{threshold:0.2});
+cards.forEach(c=>observer.observe(c));
+
+function toggleDark(){document.body.classList.toggle("dark");}
+</script>
+
+</body>
+</html>
